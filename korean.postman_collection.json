@@ -1,0 +1,638 @@
+{
+	"info": {
+		"_postman_id": "ec120633-7ca6-4bac-adf9-938a20f80a26",
+		"name": "korean",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48085028",
+		"_collection_link": "https://eng-mostafa-hesham12-3534541.postman.co/workspace/Mostafa-Hesham-~4244601f-06b8-4b96-8f18-df31bbe25e08/collection/48085028-ec120633-7ca6-4bac-adf9-938a20f80a26?action=share&source=collection_link&creator=48085028"
+	},
+	"item": [
+		{
+			"name": "Get Type Of Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains a COSRX product\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    const edges = jsonData?.data?.collection?.products?.edges || [];\r",
+							"\r",
+							"    const hasCOSRX = edges.some(e =>\r",
+							"        e?.node?.title && e.node.title.toLowerCase().includes(\"cosrx\")\r",
+							"    );\r",
+							"\r",
+							"    pm.expect(hasCOSRX).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Shopify-Storefront-Access-Token",
+						"value": "1ab03fe3fc214bbe9b0377d5d9fe5ca1"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"query { collection(handle: \\\"moisturizers-1\\\") { products(first: 10) { edges { node { id title handle featuredImage { url } } } } } }\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://korean-beauty-s.myshopify.com/api/2023-10/graphql.json",
+					"protocol": "https",
+					"host": [
+						"korean-beauty-s",
+						"myshopify",
+						"com"
+					],
+					"path": [
+						"api",
+						"2023-10",
+						"graphql.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product By Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains the target product title\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    const edges = jsonData?.data?.products?.edges || [];\r",
+							"\r",
+							"    const targetTitle = \"Isntree - Green Tea Fresh Toner Mini 20ML\";\r",
+							"\r",
+							"    const found = edges.some(e => \r",
+							"        e?.node?.title && e.node.title === targetTitle\r",
+							"    );\r",
+							"\r",
+							"    pm.expect(found).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Shopify-Storefront-Access-Token",
+						"value": "1ab03fe3fc214bbe9b0377d5d9fe5ca1"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"query { products(first: 10, query: \\\"title:*green tea toner*\\\") { edges { node { id title handle featuredImage { url } } } } }\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://korean-beauty-s.myshopify.com/api/2023-10/graphql.json",
+					"protocol": "https",
+					"host": [
+						"korean-beauty-s",
+						"myshopify",
+						"com"
+					],
+					"path": [
+						"api",
+						"2023-10",
+						"graphql.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creat Pop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"status is success\", function () {\r",
+							"    pm.expect(jsonData.status).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Popup object exists\", function () {\r",
+							"    pm.expect(jsonData).to.have.property(\"popup\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Popup title is correct\", function () {\r",
+							"    pm.expect(jsonData.popup.title).to.eql(\"🎉 خصم خاص!\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"🎉 خصم خاص!\",\n    \"description\": \" احصل على خصم 20% على أول طلب لك\",\n    \"image_url\": \"https://example.com/popup-image.jpg\",\n    \"discount_code\": \"WELCOME20\",\n    \"is_active\": true,\n    \"show_once\": true\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://web-hock-orders.up.railway.app/admin/popup",
+					"protocol": "https",
+					"host": [
+						"web-hock-orders",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"admin",
+						"popup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ِAll Pops",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Popups array exists\", function () {\r",
+							"    pm.expect(jsonData).to.have.property(\"popups\");\r",
+							"    pm.expect(jsonData.popups).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Popups array is not empty\", function () {\r",
+							"    pm.expect(jsonData.popups.length).to.be.at.least(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Popup title is correct\", function () {\r",
+							"    const popup = jsonData.popups[0];\r",
+							"    pm.expect(popup.title).to.eql(\"🎉 خصم خاص!\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Popup is active\", function () {\r",
+							"    const popup = jsonData.popups[0];\r",
+							"    pm.expect(popup.is_active).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://web-hock-orders.up.railway.app/admin/popups",
+					"protocol": "https",
+					"host": [
+						"web-hock-orders",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"admin",
+						"popups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deactive a Pop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"status is success\", function () {\r",
+							"    pm.expect(jsonData.status).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is 'Popup deactivated'\", function () {\r",
+							"    pm.expect(jsonData.message).to.eql(\"Popup deactivated\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://web-hock-orders.up.railway.app/admin/popup/1/deactivate",
+					"protocol": "https",
+					"host": [
+						"web-hock-orders",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"admin",
+						"popup",
+						"1",
+						"deactivate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Pop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"status is success\", function () {\r",
+							"    pm.expect(jsonData.status).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is correct\", function () {\r",
+							"    pm.expect(jsonData.message).to.eql(\"Popup deleted\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://web-hock-orders.up.railway.app/admin/popup/1",
+					"protocol": "https",
+					"host": [
+						"web-hock-orders",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"admin",
+						"popup",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notification Stats",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"status is success\", function () {\r",
+							"    pm.expect(jsonData.status).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"total_registered_tokens is a number\", function () {\r",
+							"    pm.expect(jsonData.total_registered_tokens).to.be.a(\"number\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Firebase is initialized\", function () {\r",
+							"    pm.expect(jsonData.firebase_initialized).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://web-hock-orders.up.railway.app/api/notification-stats",
+					"protocol": "https",
+					"host": [
+						"web-hock-orders",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"api",
+						"notification-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Notification Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"status is success\", function () {\r",
+							"    pm.expect(jsonData.status).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://web-hock-orders.up.railway.app/api/test-notification",
+					"protocol": "https",
+					"host": [
+						"web-hock-orders",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"api",
+						"test-notification"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ٍSend Real Notification",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"status is success\", function () {\r",
+							"    pm.expect(jsonData.status).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"🎉 عرض خاص من Korean Beauty!\",\n    \"body\": \"خصم 20% على كل المنتجات اليوم فقط. تسوقي الآن!\",\n    \"data\": {\n      \"screen\": \"/home\",\n      \"offer_id\": \"promo_123\",\n      \"type\": \"promotion\"\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://web-hock-orders.up.railway.app/api/send-notification-to-all",
+					"protocol": "https",
+					"host": [
+						"web-hock-orders",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"api",
+						"send-notification-to-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Discount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Coupon code exists\", function () {\r",
+							"    pm.expect(jsonData).to.have.property(\"code\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Coupon type is percentage\", function () {\r",
+							"    pm.expect(jsonData).to.have.property(\"type\");\r",
+							"    pm.expect(jsonData.type).to.eql(\"percentage\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Coupon value exists\", function () {\r",
+							"    pm.expect(jsonData).to.have.property(\"value\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://web-hock-orders.up.railway.app/discount?code=KBSUMMER2025",
+					"protocol": "https",
+					"host": [
+						"web-hock-orders",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"discount"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "KBSUMMER2025"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
