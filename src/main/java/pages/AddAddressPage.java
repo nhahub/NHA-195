@@ -152,6 +152,7 @@ public class AddAddressPage {
                 waitForSeconds(1);
 
                 System.out.println("Successfully entered text in " + fieldName);
+                return; // ✅ هنا المشكلة! لازم return عشان نطلع من الـ loop
 
             } catch (org.openqa.selenium.WebDriverException e) {
                 if (e.getMessage().contains("socket hang up") ||
@@ -189,12 +190,10 @@ public class AddAddressPage {
         try {
             String currentText = field.getText();
             if (currentText != null && !currentText.isEmpty()) {
-                // Select all text
                 field.sendKeys(org.openqa.selenium.Keys.chord(
                         org.openqa.selenium.Keys.CONTROL, "a"
                 ));
                 waitForSeconds(1);
-                // Delete
                 field.sendKeys(org.openqa.selenium.Keys.DELETE);
             }
         } catch (Exception e1) {
