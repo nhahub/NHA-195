@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Product defects",
+    "messageRegex": ".*defect.*",
+    "traceRegex": ".*",
+    "matchedStatuses": ["failed"]
+  },
+  {
+    "name": "Test defects",
+    "messageRegex": ".*NoSuchElementException.*",
+    "traceRegex": ".*NoSuchElementException.*",
+    "matchedStatuses": ["failed"]
+  },
+  {
+    "name": "Timeout errors",
+    "messageRegex": ".*TimeoutException.*",
+    "traceRegex": ".*TimeoutException.*",
+    "matchedStatuses": ["failed"]
+  },
+  {
+    "name": "Driver errors",
+    "messageRegex": ".*(Driver|Session).*",
+    "traceRegex": ".*(Driver|Session).*",
+    "matchedStatuses": ["failed", "broken"]
+  },
+  {
+    "name": "Assertion failures",
+    "messageRegex": ".*AssertionError.*",
+    "traceRegex": ".*AssertionError.*",
+    "matchedStatuses": ["failed"]
+  },
+  {
+    "name": "Ignored tests",
+    "matchedStatuses": ["skipped"]
+  }
+]

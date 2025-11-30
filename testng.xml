@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Korean Beauty App Test Suite" verbose="2" parallel="false" thread-count="1">
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="org.listeners.TestListener"/>
+    </listeners>
+
+    <test name="Complete User Journey Tests" preserve-order="true">
+        <classes>
+            <!-- Test 1: Home Page -->
+            <class name="tests.HomePageTest">
+                <methods>
+                    <include name="testAppOpenedSuccessfully"/>
+                </methods>
+            </class>
+
+            <!-- Test 2: Profile Navigation -->
+            <class name="tests.ProfileNavigationTest">
+                <methods>
+                    <include name="testNavigateToProfile"/>
+                </methods>
+            </class>
+
+            <!-- Test 3: Rewards Program -->
+            <class name="tests.RewardsProgramTest">
+                <methods>
+                    <include name="testRewardsProgramNavigation"/>
+                </methods>
+            </class>
+
+            <!-- Test 4 & 5: Add Address -->
+            <class name="tests.AddAddressTest">
+                <methods>
+                    <include name="testAddNewAddress"/>
+                    <include name="testAddNewAddressFailure"/>
+                </methods>
+            </class>
+
+            <!-- Test 6 & 7: Product Search and Cart -->
+            <class name="tests.ProductSearchTest">
+                <methods>
+                    <include name="testSearchAddToCartAndVerifyInCart"/>
+                    <include name="testApplyInvalidDiscountCode"/>
+                    <include name="testSearchAddToCartAndVerifyInCart2nd"/>
+                    <include name="testCompleteCheckoutFlow"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
