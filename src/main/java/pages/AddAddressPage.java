@@ -152,7 +152,7 @@ public class AddAddressPage {
                 waitForSeconds(1);
 
                 System.out.println("Successfully entered text in " + fieldName);
-                return; // ✅ هنا المشكلة! لازم return عشان نطلع من الـ loop
+                return;
 
             } catch (org.openqa.selenium.WebDriverException e) {
                 if (e.getMessage().contains("socket hang up") ||
